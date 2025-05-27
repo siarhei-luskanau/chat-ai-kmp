@@ -1,0 +1,26 @@
+[versions]
+
+agp = "8.10.0"
+androidx-activityCompose = "1.10.1"
+androidx-uiTest = "1.8.2"
+compose = "1.8.1"
+detekt = "1.23.8"
+hotReload = "1.0.0-alpha10"
+kotlin = "2.1.21"
+ktlint = "1.6.0"
+
+[libraries]
+
+androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
+androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
+ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
+
+[plugins]
+
+android-application = { id = "com.android.application", version.ref = "agp" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload" }
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
