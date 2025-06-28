@@ -5,8 +5,8 @@ androidx-activityCompose = "1.10.1"
 androidx-uiTest = "1.8.3"
 compose = "1.8.2"
 detekt = "1.23.8"
-hotReload = "1.0.0-beta01"
-kotlin = "2.1.21"
+hotReload = "1.0.0-beta03"
+kotlin = "2.2.0"
 ktlint = "1.6.0"
 
 [libraries]
