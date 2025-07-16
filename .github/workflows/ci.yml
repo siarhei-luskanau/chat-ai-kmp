@@ -128,7 +128,7 @@ jobs:
 
 
   JsBrowser:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v4
@@ -147,7 +147,7 @@ jobs:
 
 
   WasmJsBrowser:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v4

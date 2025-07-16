@@ -7,7 +7,7 @@ compose = "1.8.2"
 detekt = "1.23.8"
 hotReload = "1.0.0-beta03"
 kotlin = "2.2.0"
-ktlint = "1.6.0"
+ktlint = "1.7.0"
 
 [libraries]
 
