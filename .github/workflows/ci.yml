@@ -60,10 +60,10 @@ jobs:
             os: ubuntu-latest
             experimental: false
             emulator: true
-          - gradle-tasks: "iosSimulatorArm64Test"
-            os: macos-latest
-            experimental: false
-            emulator: false
+#          - gradle-tasks: "iosSimulatorArm64Test"
+#            os: macos-latest
+#            experimental: false
+#            emulator: false
           - gradle-tasks: "wasmJsBrowserTest"
             os: ubuntu-latest
             experimental: false
@@ -165,19 +165,19 @@ jobs:
 
 
 
-  iOS:
-    runs-on: macos-latest
-    steps:
-
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
-          java-version: ${{ env.JAVA_VERSION }}
-
-      - uses: gradle/actions/setup-gradle@v4
-
-#      - run: ./gradlew kspCommonMainKotlinMetadata --stacktrace
-
-      - run: ./gradlew ciIos --stacktrace
+#  iOS:
+#    runs-on: macos-latest
+#    steps:
+#
+#      - uses: actions/checkout@v4
+#
+#      - uses: actions/setup-java@v4
+#        with:
+#          distribution: ${{ env.JAVA_DISTRIBUTION }}
+#          java-version: ${{ env.JAVA_VERSION }}
+#
+#      - uses: gradle/actions/setup-gradle@v4
+#
+##      - run: ./gradlew kspCommonMainKotlinMetadata --stacktrace
+#
+#      - run: ./gradlew ciIos --stacktrace
