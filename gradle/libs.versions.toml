@@ -3,7 +3,7 @@
 agp = "8.11.1"
 androidx-activityCompose = "1.10.1"
 androidx-uiTest = "1.8.3"
-compose = "1.9.0-alpha03"
+compose = "1.9.0-beta01"
 detekt = "1.23.8"
 hotReload = "1.0.0-beta04"
 koog = "0.3.0"
