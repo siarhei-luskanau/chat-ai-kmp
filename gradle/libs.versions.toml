@@ -6,7 +6,7 @@ androidx-uiTest = "1.8.3"
 compose = "1.10.0-alpha01"
 detekt = "1.23.8"
 hotReload = "1.0.0-beta07"
-koog = "0.4.1"
+koog = "0.4.2"
 kotlin = "2.2.20"
 ktlint = "1.7.1"
 
