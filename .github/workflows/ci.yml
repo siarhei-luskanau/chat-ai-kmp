@@ -62,10 +62,10 @@ jobs:
             os: ubuntu-latest
             experimental: false
             emulator: true
-#          - gradle-tasks: "iosSimulatorArm64Test"
-#            os: macos-latest
-#            experimental: false
-#            emulator: false
+          - gradle-tasks: "iosSimulatorArm64Test"
+            os: macos-latest
+            experimental: false
+            emulator: false
           - gradle-tasks: "wasmJsBrowserTest"
             os: ubuntu-latest
             experimental: false
