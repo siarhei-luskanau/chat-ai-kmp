@@ -30,16 +30,16 @@ kotlin {
         binaries.executable()
     }
 
-//    listOf(
-//        iosX64(),
-//        iosArm64(),
-//        iosSimulatorArm64()
-//    ).forEach {
-//        it.binaries.framework {
-//            baseName = "ComposeApp"
-//            isStatic = true
-//        }
-//    }
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
@@ -70,11 +70,11 @@ kotlin {
 
 android {
     namespace = "siarhei.luskanau.ai.chat"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
 
         applicationId = "siarhei.luskanau.ai.chat.androidApp"
         versionCode = 1
