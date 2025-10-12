@@ -2,10 +2,9 @@
 
 agp = "8.13.0"
 androidx-activityCompose = "1.11.0"
-androidx-uiTest = "1.9.2"
-compose = "1.9.0"
+compose-hot-reload = "1.0.0-rc02"
+compose-multiplatform = "1.9.0"
 detekt = "1.23.8"
-hotReload = "1.0.0-rc02"
 koog = "0.5.0"
 kotlin = "2.2.20"
 ktlint = "1.7.1"
@@ -13,16 +12,18 @@ ktlint = "1.7.1"
 [libraries]
 
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
-androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
-koog-agents = { module = "ai.koog:koog-agents", version.ref = "koog" }
+koog-agents-core = { module = "ai.koog:agents-core", version.ref = "koog" }
+koog-prompt-executor-llms-all = { module = "ai.koog:prompt-executor-llms-all", version.ref = "koog" }
 ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
 [plugins]
 
 android-application = { id = "com.android.application", version.ref = "agp" }
-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-hot-reload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hot-reload" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload" }
-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

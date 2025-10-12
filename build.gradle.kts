@@ -15,11 +15,14 @@ System.getenv().forEach { (key, value) -> println("System.getenv(): $key=$value"
 
 plugins {
     alias(libs.plugins.android.application).apply(false)
-    alias(libs.plugins.compose).apply(false)
+    alias(libs.plugins.android.kmp.library).apply(false)
     alias(libs.plugins.compose.compiler).apply(false)
+    alias(libs.plugins.compose.hot.reload).apply(false)
+    alias(libs.plugins.compose.multiplatform).apply(false)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.hotReload).apply(false)
-    alias(libs.plugins.multiplatform).apply(false)
+    alias(libs.plugins.kotlin.android).apply(false)
+    alias(libs.plugins.kotlin.jvm).apply(false)
+    alias(libs.plugins.kotlin.multiplatform).apply(false)
 }
 
 allprojects {
@@ -76,7 +79,7 @@ tasks.register("ciDesktop") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":composeApp:jvmJar")
+        injected.gradlew(":desktopApp:jar")
     }
 }
 
@@ -84,7 +87,7 @@ tasks.register("ciJsBrowser") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":composeApp:jsMainClasses", ":composeApp:jsBrowserDistribution")
+        injected.gradlew(":webApp:jsMainClasses", ":webApp:jsBrowserDistribution")
     }
 }
 
@@ -92,7 +95,7 @@ tasks.register("ciWasmJsBrowser") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":composeApp:wasmJsMainClasses", ":composeApp:wasmJsBrowserDistribution")
+        injected.gradlew(":webApp:wasmJsMainClasses", ":webApp:wasmJsBrowserDistribution")
     }
 }
 
@@ -178,21 +181,6 @@ tasks.register("ciSdkManagerLicenses") {
                 println("exec: ${this.commandLine.joinToString(separator = " ")}")
             }.apply { println("ExecResult: ${this.exitValue}") }
         }
-    }
-}
-
-tasks.register("ciPngCheck") {
-    group = CI_GRADLE
-    val injected = project.objects.newInstance<Injected>()
-    doLast {
-        if (Os.isFamily(Os.FAMILY_MAC)) {
-            injected.runExec(listOf("brew", "install", "pngcheck"))
-        } else if (Os.isFamily(Os.FAMILY_UNIX)) {
-            injected.runExec(listOf("sudo", "apt", "install", "pngcheck"))
-        }
-        File(injected.projectLayout.projectDirectory.asFile, "screenshots").listFiles().orEmpty()
-            .filter { it.name.endsWith(".png", ignoreCase = true) }
-            .forEach { injected.runExec(listOf("pngcheck", "-q", it.path)) }
     }
 }
 
