@@ -1,6 +1,11 @@
 rootProject.name = "ChatAiKmp"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-include(":composeApp")
+include(
+    ":androidApp",
+    ":desktopApp",
+    ":sharedUI",
+    ":webApp"
+)
 
 pluginManagement {
     repositories {
