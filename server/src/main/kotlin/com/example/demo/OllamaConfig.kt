@@ -10,7 +10,7 @@ class OllamaConfig {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     fun ollamaContainer(): OllamaContainer = OllamaContainer("ollama/ollama:latest").apply {
-        withExposedPorts(11434)
+        withExposedPorts(OLLAMA_EXPOSED_PORT)
         withImagePullPolicy(PullPolicy.alwaysPull())
         withCreateContainerCmdModifier { cmd ->
             cmd.hostConfig?.apply {
@@ -19,5 +19,9 @@ class OllamaConfig {
             }
         }
         withReuse(false)
+    }
+
+    companion object {
+        const val OLLAMA_EXPOSED_PORT = 11434
     }
 }
