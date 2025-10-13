@@ -61,6 +61,7 @@ jobs:
           ":shared:sharedKoog:jvmTest",
           # "testAndroid",
           # "testDebugUnitTest",
+          "ciOllamaTest",
           "wasmJsBrowserTest"
         ]
         os: [ ubuntu-latest ]
