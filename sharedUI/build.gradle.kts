@@ -37,6 +37,7 @@ kotlin {
             implementation(compose.ui)
             implementation(libs.koog.agents.core)
             implementation(libs.koog.prompt.executor.llms.all)
+            implementation(project.dependencies.platform(libs.ktor.bom))
         }
 
         commonTest.dependencies {
@@ -47,10 +48,20 @@ kotlin {
 
         androidMain.dependencies {
             implementation(compose.uiTooling)
+            implementation(libs.ktor.client.okhttp)
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.ktor.client.apache5)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+
+        webMain.dependencies {
+            implementation(libs.ktor.client.js)
         }
     }
 
