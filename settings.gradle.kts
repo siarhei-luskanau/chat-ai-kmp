@@ -1,10 +1,10 @@
 rootProject.name = "ChatAiKmp"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
-    ":androidApp",
-    ":desktopApp",
-    ":sharedUI",
-    ":webApp"
+    ":app:androidApp",
+    ":app:desktopApp",
+    ":app:webApp",
+    ":sharedUI"
 )
 
 pluginManagement {

@@ -8,6 +8,7 @@ detekt = "1.23.8"
 koog = "0.5.1"
 kotlin = "2.2.20"
 ktlint = "1.7.1"
+ktor = "3.3.1"
 
 [libraries]
 
@@ -15,6 +16,11 @@ androidx-activityCompose = { module = "androidx.activity:activity-compose", vers
 koog-agents-core = { module = "ai.koog:agents-core", version.ref = "koog" }
 koog-prompt-executor-llms-all = { module = "ai.koog:prompt-executor-llms-all", version.ref = "koog" }
 ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
+ktor-bom = { module = "io.ktor:ktor-bom", version.ref = "ktor" }
+ktor-client-apache5 = { module = "io.ktor:ktor-client-apache5" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin" }
+ktor-client-js = { module = "io.ktor:ktor-client-js" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp" }
 
 [plugins]
 

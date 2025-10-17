@@ -79,7 +79,7 @@ tasks.register("ciDesktop") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":desktopApp:jar")
+        injected.gradlew(":app:desktopApp:jar")
     }
 }
 
@@ -87,7 +87,7 @@ tasks.register("ciJsBrowser") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":webApp:jsMainClasses", ":webApp:jsBrowserDistribution")
+        injected.gradlew(":app:webApp:jsMainClasses", ":app:webApp:jsBrowserDistribution")
     }
 }
 
@@ -95,7 +95,7 @@ tasks.register("ciWasmJsBrowser") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":webApp:wasmJsMainClasses", ":webApp:wasmJsBrowserDistribution")
+        injected.gradlew(":app:webApp:wasmJsMainClasses", ":app:webApp:wasmJsBrowserDistribution")
     }
 }
 
