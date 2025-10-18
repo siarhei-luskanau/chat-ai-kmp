@@ -2,6 +2,11 @@
 
 agp = "8.13.0"
 androidx-activityCompose = "1.11.0"
+build-android-compileSdk = "36"
+build-android-minSdk = "30"
+build-android-targetSdk = "36"
+build-javaVersion = "VERSION_21"
+build-jvmTarget = "21"
 compose-hot-reload = "1.0.0-rc02"
 compose-multiplatform = "1.9.0"
 detekt = "1.23.8"
@@ -12,9 +17,13 @@ ktor = "3.3.1"
 
 [libraries]
 
+android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+jetbrains-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 koog-agents-core = { module = "ai.koog:agents-core", version.ref = "koog" }
 koog-prompt-executor-llms-all = { module = "ai.koog:prompt-executor-llms-all", version.ref = "koog" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 ktor-bom = { module = "io.ktor:ktor-bom", version.ref = "ktor" }
 ktor-client-apache5 = { module = "io.ktor:ktor-client-apache5" }

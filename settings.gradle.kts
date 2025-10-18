@@ -8,6 +8,7 @@ include(
 )
 
 pluginManagement {
+    includeBuild("convention-plugin-multiplatform")
     repositories {
         google {
             content {

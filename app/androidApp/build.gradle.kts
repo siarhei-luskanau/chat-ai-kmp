@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "org.company.app"
-    compileSdk = 36
+    compileSdk = libs.versions.build.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 36
+        minSdk = libs.versions.build.android.minSdk.get().toInt()
+        targetSdk = libs.versions.build.android.targetSdk.get().toInt()
 
         applicationId = "org.company.app.androidApp"
         versionCode = 1
@@ -24,7 +24,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(libs.versions.build.jvmTarget.get().toInt())
 }
 
 dependencies {
