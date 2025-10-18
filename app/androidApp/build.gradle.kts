@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.hot.reload)
     alias(libs.plugins.kotlin.android)
 }
 
