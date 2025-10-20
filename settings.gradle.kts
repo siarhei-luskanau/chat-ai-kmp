@@ -4,6 +4,8 @@ include(
     ":app:androidApp",
     ":app:desktopApp",
     ":app:webApp",
+    ":shared:sharedApp",
+    ":shared:sharedNavigation",
     ":sharedUI"
 )
 

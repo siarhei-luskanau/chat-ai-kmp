@@ -19,7 +19,6 @@ kotlin {
         compileSdk = libs.versions.build.android.compileSdk.get().toInt()
         minSdk = libs.versions.build.android.minSdk.get().toInt()
         androidResources.enable = true
-        withJava()
         withHostTestBuilder {}.configure {
             isIncludeAndroidResources = true
             enableCoverage = true
@@ -53,6 +52,10 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
             implementation(compose.ui)
+            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
+            implementation(libs.koin.compose)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(project.dependencies.platform(libs.koin.bom))
         }
 
         commonTest.dependencies {
@@ -62,18 +65,19 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(compose.uiTooling)
         }
 
-        androidUnitTest.dependencies {
-        }
-
-        androidInstrumentedTest.dependencies {
-            implementation(kotlin("test"))
+        getByName("androidHostTest") {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(libs.androidx.uitest.junit4)
+                implementation(libs.androidx.uitest.testManifest)
+            }
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
         }
 
         iosMain.dependencies {
@@ -86,7 +90,7 @@ kotlin {
     targets
         .withType<KotlinNativeTarget>()
         .matching { it.konanTarget.family.isAppleFamily }
-        .configureEach { binaries { framework { baseName = "SharedUI" } } }
+        .configureEach { binaries { framework { baseName = "SharedApp" } } }
 }
 
 tasks.withType<AbstractTestTask>().configureEach {

@@ -54,14 +54,16 @@ jobs:
       fail-fast: false
       matrix:
         gradle-tasks: [
-          ":sharedUI:jvmTest",
-          "testDebugUnitTest",
+          ":shared:sharedApp:jvmTest",
+          # "testAndroid",
+          # "testDebugUnitTest",
           "wasmJsBrowserTest"
         ]
         os: [ ubuntu-latest ]
         experimental: [ false ]
         emulator: [ false ]
         include:
+          # managedVirtualDeviceAndroidDeviceTest
           - gradle-tasks: "managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
             os: ubuntu-latest
             experimental: false

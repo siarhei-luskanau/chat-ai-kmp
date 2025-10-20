@@ -10,7 +10,7 @@ plugins {
 
 dependencies {
     implementation(compose.ui)
-    implementation(projects.sharedUI)
+    implementation(projects.shared.sharedApp)
 }
 
 compose.desktop {
