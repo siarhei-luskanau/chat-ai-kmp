@@ -3,7 +3,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import java.awt.Dimension
-import org.company.app.App
+import shared.app.KoinApp
 
 fun main() = application {
     Window(
@@ -13,6 +13,6 @@ fun main() = application {
     ) {
         @Suppress("MagicNumber")
         window.minimumSize = Dimension(350, 600)
-        App()
+        KoinApp()
     }
 }

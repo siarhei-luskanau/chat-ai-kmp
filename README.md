@@ -18,7 +18,7 @@ Run desktop UI tests: `./gradlew jvmTest`
 To run the application on iPhone device/simulator:
 - Open `iosApp/iosApp.xcproject` in Xcode and run standard configuration
 - Or use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) for Android Studio
-  Run iOS simulator UI tests: `./gradlew :sharedUI:iosSimulatorArm64Test`
+  Run iOS simulator UI tests: `./gradlew iosSimulatorArm64Test`
 
 ### Web Distribution
 Build web distribution: `./gradlew :app:webApp:composeCompatibilityBrowserDistribution`  

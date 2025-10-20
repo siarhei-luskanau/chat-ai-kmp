@@ -1,7 +1,8 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.compose.hot.reload)
     alias(libs.plugins.kotlin.android)
 }
 
@@ -16,11 +17,27 @@ android {
         applicationId = "org.company.app.androidApp"
         versionCode = 1
         versionName = "1.0.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
+        targetCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
+    }
+    buildFeatures.compose = true
     packaging.resources.excludes.add("META-INF/**")
-    testOptions.managedDevices.localDevices.create("managedVirtualDevice") {
-        device = "Pixel 2"
-        apiLevel = 35
+    testOptions {
+        unitTests {
+            all { test: Test ->
+                test.testLogging.events = TestLogEvent.entries.toSet()
+                test.testLogging.exceptionFormat =
+                    org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+            }
+        }
+        animationsDisabled = true
+        managedDevices.localDevices.create("managedVirtualDevice") {
+            device = "Pixel 2"
+            apiLevel = 35
+        }
     }
 }
 
@@ -29,6 +46,11 @@ kotlin {
 }
 
 dependencies {
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.uitest.junit4)
+    debugImplementation(libs.androidx.uitest.testManifest)
     implementation(libs.androidx.activityCompose)
+    implementation(projects.shared.sharedApp)
+    implementation(projects.shared.sharedNavigation)
     implementation(projects.sharedUI)
 }
