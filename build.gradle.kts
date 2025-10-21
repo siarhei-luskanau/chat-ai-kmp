@@ -8,7 +8,6 @@ import kotlin.apply
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.kotlin.dsl.newInstance
 
-
 println("gradle.startParameter.taskNames: ${gradle.startParameter.taskNames}")
 System.getProperties().forEach { key, value -> println("System.getProperties(): $key=$value") }
 System.getenv().forEach { (key, value) -> println("System.getenv(): $key=$value") }
@@ -27,10 +26,12 @@ plugins {
 
 allprojects {
     apply(from = "$rootDir/ktlint.gradle")
-    apply(plugin = "io.gitlab.arturbosch.detekt")
-    detekt {
-        parallel = true
-        ignoreFailures = false
+    if (name != "server") {
+        apply(plugin = "io.gitlab.arturbosch.detekt")
+        detekt {
+            parallel = true
+            ignoreFailures = false
+        }
     }
 }
 
