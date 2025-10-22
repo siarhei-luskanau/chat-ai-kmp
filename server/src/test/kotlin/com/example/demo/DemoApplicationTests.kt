@@ -5,22 +5,22 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.testcontainers.ollama.OllamaContainer
+import org.testcontainers.containers.GenericContainer
 
 @SpringBootTest
 class DemoApplicationTests {
 
     @Autowired
-    private lateinit var ollamaContainer: OllamaContainer
+    private lateinit var container: GenericContainer<*>
 
     @Test
     fun contextLoads() {
     }
 
     @Test
-    fun `ollama container bean is created and running`() {
-        assertNotNull(ollamaContainer)
-        assertTrue(ollamaContainer.isCreated)
-        assertTrue(ollamaContainer.isRunning)
+    fun `container bean is created and running`() {
+        assertNotNull(container)
+        assertTrue(container.isCreated)
+        assertTrue(container.isRunning)
     }
 }

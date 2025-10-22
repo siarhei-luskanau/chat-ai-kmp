@@ -1,5 +1,4 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
@@ -44,15 +43,15 @@ kotlin {
             implementation(compose.animation)
             implementation(compose.animationGraphics)
             implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.materialIconsExtended)
+            implementation(compose.preview)
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
             implementation(compose.ui)
-            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
+            implementation(libs.jetbrains.lifecycle.viewmodel.navigation3)
             implementation(libs.koin.compose)
             implementation(libs.kotlinx.coroutines.core)
             implementation(project.dependencies.platform(libs.koin.bom))

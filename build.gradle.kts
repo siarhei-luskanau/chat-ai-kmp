@@ -4,9 +4,7 @@ import groovy.json.JsonSlurper
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.util.Properties
-import kotlin.apply
 import org.apache.tools.ant.taskdefs.condition.Os
-import org.gradle.kotlin.dsl.newInstance
 
 println("gradle.startParameter.taskNames: ${gradle.startParameter.taskNames}")
 System.getProperties().forEach { key, value -> println("System.getProperties(): $key=$value") }
@@ -204,6 +202,12 @@ abstract class Injected {
                 mutableArgs.addAll(tasks)
                 addToSystemProperties?.toList()?.map { "-D${it.first}=${it.second}" }?.let {
                     mutableArgs.addAll(it)
+                }
+                listOf(
+                    "LLM_TYPE",
+                    "SERVER_DOMAIN"
+                ).forEach { key ->
+                    System.getProperty(key)?.also { mutableArgs.add("-D$key=$it") }
                 }
                 mutableArgs.add("--stacktrace")
             }
