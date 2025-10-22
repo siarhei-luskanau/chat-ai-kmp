@@ -11,6 +11,8 @@ on:
 env:
   JAVA_VERSION: 21
   JAVA_DISTRIBUTION: 'zulu'
+  LLM_TYPE: 'ollama'
+  SERVER_DOMAIN: 'localhost'
 
 jobs:
 
@@ -32,18 +34,18 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew wrapper --gradle-version latest --stacktrace
-      - run: ./gradlew wrapper --gradle-version latest --stacktrace
+      - run: ./gradlew wrapper --gradle-version latest -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew wrapper --gradle-version latest -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
       - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Update Gradle wrapper
 
-      - run: ./gradlew ktlintFormat --stacktrace
+      - run: ./gradlew ktlintFormat -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
       - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Ktlint format
 
-      - run: ./gradlew ciLint --stacktrace
+      - run: ./gradlew ciLint -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
 
 
 
@@ -91,10 +93,10 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciSdkManagerLicenses --stacktrace
+      - run: ./gradlew ciSdkManagerLicenses -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
         if: matrix.emulator
 
-      - run: ./gradlew clean ${{ matrix.gradle-tasks }} --stacktrace
+      - run: ./gradlew clean ${{ matrix.gradle-tasks }} -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
 
       - name: Get task name
         id: get_task
@@ -124,7 +126,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciAndroid --stacktrace
+      - run: ./gradlew ciAndroid -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
 
 
 
@@ -141,7 +143,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciDesktop --stacktrace
+      - run: ./gradlew ciDesktop -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
 
 
 
@@ -158,9 +160,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciWasmJsBrowser --stacktrace
+      - run: ./gradlew ciWasmJsBrowser -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
 
-      - run: ./gradlew wasmJsBrowserDistribution --stacktrace
+      - run: ./gradlew wasmJsBrowserDistribution -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
 
 
 
@@ -170,6 +172,8 @@ jobs:
 
       - uses: actions/checkout@v5
 
+      - uses: gradle/actions/setup-gradle@v5
+
       - uses: actions/setup-java@v5
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
@@ -177,4 +181,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciIos --stacktrace
+      - run: echo "LLM_TYPE=${{ env.LLM_TYPE }}" >> local.properties
+      - run: echo "SERVER_DOMAIN=${{ env.SERVER_DOMAIN }}" >> local.properties
+
+      - run: ./gradlew ciIos -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
