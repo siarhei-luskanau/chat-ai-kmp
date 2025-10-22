@@ -6,8 +6,13 @@ include(
     ":app:webApp",
     ":server",
     ":shared:sharedApp",
+    ":shared:sharedCommon",
+    ":shared:sharedKoog",
     ":shared:sharedNavigation",
-    ":sharedUI"
+    ":shared:sharedNetworkApi",
+    ":shared:sharedNetworkKtor",
+    ":shared:sharedUiCommon",
+    ":shared:sharedUiStart"
 )
 
 pluginManagement {

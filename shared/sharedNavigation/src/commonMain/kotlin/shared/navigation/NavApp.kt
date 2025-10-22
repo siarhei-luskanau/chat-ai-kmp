@@ -1,29 +1,33 @@
 package shared.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.Serializable
-import org.company.app.App
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.company.shared.ui.start.StartScreen
 import org.koin.compose.getKoin
 
 @Preview
 @Composable
 fun NavApp() {
     val koin = getKoin()
-    val navHostController: NavHostController = rememberNavController()
-    val appNavigation = AppNavigation(navHostController = navHostController)
-    NavHost(navController = navHostController, startDestination = AppRoutes.Start) {
-        composable<AppRoutes.Start> {
-            App()
+    val backStack = mutableStateListOf<NavKey>(AppRoutes.Start)
+    val appNavigation = AppNavigation(backStack = backStack)
+    NavDisplay(
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = entryProvider {
+            entry<AppRoutes.Start> {
+                StartScreen(viewModelProvider = { koin.get() })
+            }
         }
-    }
+    )
 }
 
-internal sealed interface AppRoutes {
+internal sealed interface AppRoutes : NavKey {
 
     @Serializable
     data object Start : AppRoutes

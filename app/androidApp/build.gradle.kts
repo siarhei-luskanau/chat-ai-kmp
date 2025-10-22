@@ -52,5 +52,4 @@ dependencies {
     implementation(libs.androidx.activityCompose)
     implementation(projects.shared.sharedApp)
     implementation(projects.shared.sharedNavigation)
-    implementation(projects.sharedUI)
 }

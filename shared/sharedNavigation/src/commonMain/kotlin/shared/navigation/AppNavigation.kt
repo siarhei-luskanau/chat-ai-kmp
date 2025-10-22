@@ -1,10 +1,10 @@
 package shared.navigation
 
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.NavKey
 
-class AppNavigation(private val navHostController: NavHostController) {
+class AppNavigation(private val backStack: MutableList<NavKey>) {
 
     fun goBack() {
-        navHostController.popBackStack()
+        backStack.removeLastOrNull()
     }
 }
