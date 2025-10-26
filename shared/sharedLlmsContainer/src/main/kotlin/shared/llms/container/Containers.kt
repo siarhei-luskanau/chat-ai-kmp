@@ -1,5 +1,11 @@
 package shared.llms.container
 
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.request.get
+import io.ktor.http.isSuccess
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.testcontainers.containers.DockerModelRunnerContainer
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.images.PullPolicy
@@ -23,8 +29,39 @@ object Containers {
         else -> throw IllegalArgumentException("Unexpected LLM_TYPE value: $LLM_TYPE")
     }.apply {
         withImagePullPolicy(PullPolicy.alwaysPull())
-        withReuse(false)
+        withReuse(true)
     }
 
+    fun waitForOllamaServer(baseUrl: String) {
+        val httpClient = HttpClient {
+            install(HttpTimeout) {
+                connectTimeoutMillis = 1000
+            }
+        }
+
+        val maxAttempts = 100
+
+        runBlocking {
+            for (attempt in 1..maxAttempts) {
+                @Suppress("TooGenericExceptionCaught")
+                try {
+                    val response = httpClient.get(baseUrl)
+                    if (response.status.isSuccess()) {
+                        httpClient.close()
+                        return@runBlocking
+                    }
+                } catch (e: Exception) {
+                    if (attempt == maxAttempts) {
+                        httpClient.close()
+                        throw IllegalStateException(
+                            "Ollama server didn't respond after $maxAttempts attemps",
+                            e
+                        )
+                    }
+                }
+                delay(1000)
+            }
+        }
+    }
     const val EXPOSED_PORT = 11434
 }

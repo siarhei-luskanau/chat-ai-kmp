@@ -12,6 +12,7 @@ fun main() {
     container.start()
     val port = container.getMappedPort(EXPOSED_PORT)
     val baseContainerUrl = "http://localhost:$port/"
+    Containers.waitForOllamaServer(baseContainerUrl)
     application {
         Window(
             title = "Multiplatform App",
