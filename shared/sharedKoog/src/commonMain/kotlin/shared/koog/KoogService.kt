@@ -8,8 +8,8 @@ import shared.common.GenericResult
 
 class KoogService(private val baseUrlProvider: suspend () -> GenericResult<String>) {
 
-    suspend fun askLlm(agentInput: String): GenericResult<String> = baseUrlProvider.invoke().mapSuspend { result ->
-        val baseUrl = result
+    suspend fun askLlm(agentInput: String): GenericResult<String> = baseUrlProvider.invoke().mapSuspend { baseUrl ->
+        println("baseUrl: $baseUrl")
         val client = OllamaClient(baseUrl)
         val model = OllamaModels.Meta.LLAMA_3_2
         val visionModel = OllamaModels.Granite.GRANITE_3_2_VISION
