@@ -1,7 +1,4 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
-    alias(libs.plugins.buildConfig)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.spring)
     alias(libs.plugins.kotlin.serialization)
@@ -23,6 +20,7 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.spring.boot.starter.web)
     implementation(libs.testcontainers.ollama)
+    implementation(projects.shared.sharedLlmsContainer)
     testImplementation(libs.kotlin.test.junit5)
     testImplementation(libs.spring.boot.starter.test)
     testRuntimeOnly(libs.junit.platform.launcher)
@@ -36,14 +34,4 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-buildConfig {
-    packageName("com.example")
-    useKotlinOutput {
-        topLevelConstants = true
-        internalVisibility = true
-    }
-    val llmType = getLlmType { gradleLocalProperties(rootDir, providers) }
-    buildConfigField("String", "LLM_TYPE", "\"${llmType.llmName}\"")
 }

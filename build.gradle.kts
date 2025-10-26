@@ -35,16 +35,6 @@ allprojects {
 
 val CI_GRADLE = "CI_GRADLE"
 
-tasks.register("devRun") {
-    group = CI_GRADLE
-    val injected = project.objects.newInstance<Injected>()
-    doLast {
-        Thread { injected.gradlew("bootRun") }.start()
-        Thread.sleep(30_000)
-        injected.gradlew(":app:desktopApp:run", "--no-daemon")
-    }
-}
-
 tasks.register("ciLint") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()

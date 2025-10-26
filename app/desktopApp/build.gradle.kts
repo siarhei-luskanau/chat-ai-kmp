@@ -10,7 +10,9 @@ plugins {
 
 dependencies {
     implementation(compose.ui)
+    implementation(libs.testcontainers.ollama)
     implementation(projects.client.sharedApp)
+    implementation(projects.shared.sharedLlmsContainer)
 }
 
 compose.desktop {
