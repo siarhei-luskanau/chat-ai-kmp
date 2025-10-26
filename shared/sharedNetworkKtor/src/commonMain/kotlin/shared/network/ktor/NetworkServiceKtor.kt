@@ -6,6 +6,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
+import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.serialization.json.Json
 import shared.common.GenericResult
 import shared.network.api.NetworkService
@@ -33,6 +34,8 @@ class NetworkServiceKtor : NetworkService {
                     GenericResult.Failure(error = Error(response.status.toString()))
                 }
             }
+    } catch (error: CancellationException) {
+        throw error
     } catch (error: Throwable) {
         GenericResult.Failure(error = error)
     }

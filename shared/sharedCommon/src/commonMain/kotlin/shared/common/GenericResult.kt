@@ -1,5 +1,7 @@
 package shared.common
 
+import kotlin.coroutines.cancellation.CancellationException
+
 sealed interface GenericResult<T> {
     data class Failure<T>(val error: Throwable) : GenericResult<T>
     data class Success<T>(val result: T) : GenericResult<T>
@@ -17,6 +19,8 @@ sealed interface GenericResult<T> {
         is Failure -> Failure(error)
         is Success -> try {
             Success(transform(result))
+        } catch (error: CancellationException) {
+            throw error
         } catch (error: Throwable) {
             Failure(error)
         }

@@ -39,9 +39,9 @@ tasks.register("devRun") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        Thread { injected.gradlew("bootRun", "--no-daemon") }.start()
+        Thread { injected.gradlew("bootRun") }.start()
         Thread.sleep(30_000)
-        injected.gradlew(":app:desktopApp:hotRun", "--auto", "--no-daemon")
+        injected.gradlew(":app:desktopApp:run", "--no-daemon")
     }
 }
 

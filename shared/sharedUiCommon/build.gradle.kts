@@ -1,6 +1,6 @@
 plugins {
     id("composeMultiplatformConvention")
-    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin.androidLibrary.namespace = "shared.ui.common"
