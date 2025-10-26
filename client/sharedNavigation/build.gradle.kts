@@ -9,7 +9,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.jetbrains.navigation3.ui)
-            implementation(projects.shared.sharedUiStart)
+            implementation(projects.client.sharedUiStart)
         }
     }
 }

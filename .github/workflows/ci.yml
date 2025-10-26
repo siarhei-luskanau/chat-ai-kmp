@@ -57,7 +57,7 @@ jobs:
       matrix:
         gradle-tasks: [
           ":server:test",
-          ":shared:sharedApp:jvmTest",
+          ":client:sharedApp:jvmTest",
           # "testAndroid",
           # "testDebugUnitTest",
           "wasmJsBrowserTest"
