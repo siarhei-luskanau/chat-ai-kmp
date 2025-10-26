@@ -16,31 +16,30 @@ import shared.ui.common.theme.AppTheme
 
 @Preview
 @Composable
-fun KoinApp(onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}) = AppTheme(onThemeChanged) {
-    KoinMultiplatformApplication(
-        config = KoinConfiguration {
-            modules(
-                appModule,
-                appPlatformModule
-            )
+fun KoinApp(baseContainerUrl: String? = null, onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}) =
+    AppTheme(onThemeChanged) {
+        KoinMultiplatformApplication(
+            config = KoinConfiguration {
+                modules(
+                    module {
+                        factory { StartViewModel(koogService = get()) }
+                        single<NetworkService> { NetworkServiceKtor() }
+                        factory {
+                            val baseUrlProvider: suspend () -> GenericResult<String> =
+                                if (baseContainerUrl != null) {
+                                    { GenericResult.Success(baseContainerUrl) }
+                                } else {
+                                    { get<NetworkService>().getLlmUrl() }
+                                }
+                            KoogService(baseUrlProvider = baseUrlProvider)
+                        }
+                    },
+                    appPlatformModule
+                )
+            }
+        ) {
+            NavApp()
         }
-    ) {
-        NavApp()
     }
-}
 
 expect val appPlatformModule: Module
-
-val appModule by lazy {
-    module {
-        factory { StartViewModel(koogService = get()) }
-        single<NetworkService> { NetworkServiceKtor() }
-        factory {
-            val baseUrlProvider: suspend () -> GenericResult<String> = {
-                val networkService: NetworkService = get()
-                networkService.getLlmUrl()
-            }
-            KoogService(baseUrlProvider = baseUrlProvider)
-        }
-    }
-}

@@ -11,6 +11,7 @@ include(
     ":server",
     ":shared:sharedCommon",
     ":shared:sharedKoog",
+    ":shared:sharedLlmsContainer",
     ":shared:sharedNetworkApi",
     ":shared:sharedNetworkKtor"
 )
