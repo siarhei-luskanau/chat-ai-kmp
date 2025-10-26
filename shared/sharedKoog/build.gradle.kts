@@ -13,5 +13,9 @@ kotlin {
             implementation(projects.shared.sharedCommon)
             implementation(projects.shared.sharedNetworkApi)
         }
+        jvmTest.dependencies {
+            implementation(libs.testcontainers.ollama)
+            implementation(projects.shared.sharedLlmsContainer)
+        }
     }
 }
