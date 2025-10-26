@@ -51,6 +51,6 @@ dependencies {
     androidTestImplementation(libs.androidx.uitest.junit4)
     debugImplementation(libs.androidx.uitest.testManifest)
     implementation(libs.androidx.activityCompose)
-    implementation(projects.shared.sharedApp)
-    implementation(projects.shared.sharedNavigation)
+    implementation(projects.client.sharedApp)
+    implementation(projects.client.sharedNavigation)
 }

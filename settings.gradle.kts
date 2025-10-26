@@ -4,15 +4,15 @@ include(
     ":app:androidApp",
     ":app:desktopApp",
     ":app:webApp",
+    ":client:sharedApp",
+    ":client:sharedNavigation",
+    ":client:sharedUiCommon",
+    ":client:sharedUiStart",
     ":server",
-    ":shared:sharedApp",
     ":shared:sharedCommon",
     ":shared:sharedKoog",
-    ":shared:sharedNavigation",
     ":shared:sharedNetworkApi",
-    ":shared:sharedNetworkKtor",
-    ":shared:sharedUiCommon",
-    ":shared:sharedUiStart"
+    ":shared:sharedNetworkKtor"
 )
 
 pluginManagement {
