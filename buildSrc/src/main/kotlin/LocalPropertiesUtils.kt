@@ -10,13 +10,12 @@ fun getServerDomain(properties: () -> Properties): String = (
     }
 }
 
-fun getLlmType(properties: () -> Properties): LlmType = (
+fun getLlmType(properties: () -> Properties): String = (
     System.getProperty("LLM_TYPE")
         ?: properties().getProperty("LLM_TYPE")
     ).let {
     when (it) {
-        LlmType.OPENAI.llmName -> LlmType.OPENAI
-        LlmType.OLLAMA.llmName -> LlmType.OLLAMA
-        else -> throw IllegalArgumentException("Unexpected LLM_TYPE value: $it")
+        null -> throw IllegalArgumentException("LLM_TYPE is not set")
+        else -> requireNotNull(it)
     }
 }

@@ -1,0 +1,43 @@
+name: Koog tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  JAVA_VERSION: 21
+  JAVA_DISTRIBUTION: 'zulu'
+
+jobs:
+
+  KoogTests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        llm-type: ["ollama_granite"]
+    steps:
+
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - run: ./gradlew :shared:sharedKoog:jvmTest -DLLM_TYPE=${{ matrix.llm-type }} --stacktrace
+
+      - name: Collect reports
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: reports-${{ matrix.llm-type }}
+          path: |
+            **/build/reports/
+          retention-days: 7

@@ -11,8 +11,7 @@ on:
 env:
   JAVA_VERSION: 21
   JAVA_DISTRIBUTION: 'zulu'
-  LLM_TYPE: 'ollama'
-  SERVER_DOMAIN: 'localhost'
+  LLM_TYPE: 'ollama_granite'
 
 jobs:
 
@@ -34,18 +33,18 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew wrapper --gradle-version latest -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
-      - run: ./gradlew wrapper --gradle-version latest -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew wrapper --gradle-version latest -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
+      - run: ./gradlew wrapper --gradle-version latest -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
       - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Update Gradle wrapper
 
-      - run: ./gradlew ktlintFormat -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew ktlintFormat -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
       - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Ktlint format
 
-      - run: ./gradlew ciLint -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew ciLint -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
 
 
 
@@ -56,19 +55,20 @@ jobs:
       fail-fast: false
       matrix:
         gradle-tasks: [
-          ":client:sharedApp:jvmTest",
-          ":server:test",
-          ":shared:sharedKoog:jvmTest",
+          ":shared:sharedApp:jvmTest",
           # "testAndroid",
           # "testDebugUnitTest",
-          "wasmJsBrowserTest"
+          ":shared:sharedApp:wasmJsBrowserTest"
         ]
         os: [ ubuntu-latest ]
         experimental: [ false ]
         emulator: [ false ]
         include:
-          # managedVirtualDeviceAndroidDeviceTest
           - gradle-tasks: "managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
+            os: ubuntu-latest
+            experimental: false
+            emulator: true
+          - gradle-tasks: "managedVirtualDeviceAndroidDeviceTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
             os: ubuntu-latest
             experimental: false
             emulator: true
@@ -94,10 +94,10 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciSdkManagerLicenses -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew ciSdkManagerLicenses -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
         if: matrix.emulator
 
-      - run: ./gradlew clean ${{ matrix.gradle-tasks }} -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew clean ${{ matrix.gradle-tasks }} -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
 
       - name: Get task name
         id: get_task
@@ -127,7 +127,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciAndroid -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew ciAndroid -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
 
 
 
@@ -144,7 +144,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciDesktop -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew ciDesktop -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
 
 
 
@@ -161,9 +161,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew ciWasmJsBrowser -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew ciWasmJsBrowser -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
 
-      - run: ./gradlew wasmJsBrowserDistribution -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew wasmJsBrowserDistribution -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
 
 
 
@@ -183,6 +183,5 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5
 
       - run: echo "LLM_TYPE=${{ env.LLM_TYPE }}" >> local.properties
-      - run: echo "SERVER_DOMAIN=${{ env.SERVER_DOMAIN }}" >> local.properties
 
-      - run: ./gradlew ciIos -DLLM_TYPE=${{ env.LLM_TYPE }} -DSERVER_DOMAIN=${{ env.SERVER_DOMAIN }} --stacktrace
+      - run: ./gradlew ciIos -DLLM_TYPE=${{ env.LLM_TYPE }} --stacktrace
