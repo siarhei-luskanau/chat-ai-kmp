@@ -1,33 +1,47 @@
 package shared.koog
 
-import ai.koog.agents.core.agent.AIAgent
-import ai.koog.agents.core.tools.ToolRegistry
-import ai.koog.agents.ext.tool.SayToUser
+import ai.koog.prompt.dsl.prompt
 import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
-import ai.koog.prompt.executor.ollama.client.OllamaClient
-import ai.koog.prompt.llm.OllamaModels
+import ai.koog.prompt.message.AttachmentContent
+import ai.koog.prompt.message.ContentPart
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import shared.common.GenericResult
 
-class KoogService(private val baseUrlProvider: suspend () -> GenericResult<String>) {
+class KoogService(private val baseUrlProvider: (() -> String)? = null) {
 
-    suspend fun askLlm(agentInput: String): GenericResult<String> = baseUrlProvider.invoke().mapSuspend { baseUrl ->
-        println("KoogService: baseUrl: $baseUrl")
-        val client = OllamaClient(baseUrl)
-        val model = OllamaModels.Meta.LLAMA_3_2
-        println("KoogService: pull ${model.id}")
-        client.getModelOrNull(model.id, pullIfMissing = true)
-        println("KoogService: create AIAgent")
+    @OptIn(ExperimentalUuidApi::class)
+    suspend fun askLlm(
+        promptText: String,
+        attachmentData: ByteArray? = null,
+        attachmentFormat: String? = null
+    ): GenericResult<String> = try {
+        println("KoogService: creating LLMClient ...")
+        val (client, model) = LLMClientFactory.createLLMClient(baseUrlProvider = baseUrlProvider)
+        println("KoogService: LLMClient is created: $client")
+        println("KoogService: LLModel is used: $model")
         val promptExecutor = SingleLLMPromptExecutor(client)
-        val agent = AIAgent(
-            promptExecutor = promptExecutor,
-            llmModel = model,
-            temperature = 0.0,
-            toolRegistry = ToolRegistry.Companion { tool(SayToUser) },
-            maxIterations = 10
-        )
-        println("KoogService: run agent input: $agentInput")
-        val output = agent.run(agentInput)
-        println("KoogService: agent output: $output")
-        output
+        val prompt = prompt(id = Uuid.random().toString()) {
+            system(content = "You are a helpful assistant.")
+            user {
+                text(text = promptText)
+                if (attachmentData != null && attachmentFormat != null) {
+                    attachments {
+                        image(
+                            image = ContentPart.Image(
+                                content = AttachmentContent.Binary.Bytes(data = attachmentData),
+                                format = attachmentFormat
+                            )
+                        )
+                    }
+                }
+            }
+        }
+        println("KoogService: execute agent prompt: $prompt")
+        val response = promptExecutor.execute(prompt = prompt, model = model).single()
+        println("KoogService: agent response: $response")
+        GenericResult.Success(result = response.content)
+    } catch (error: Throwable) {
+        GenericResult.Failure(error = error)
     }
 }
