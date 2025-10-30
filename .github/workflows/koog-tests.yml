@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        llm-type: ["ollama_granite"]
+        ollama-model-id: [ "granite3.2-visio", "qwen3-vl:4b" ]
     steps:
 
       - uses: actions/checkout@v5
@@ -31,13 +31,17 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: ./gradlew :shared:sharedKoog:jvmTest -DLLM_TYPE=${{ matrix.llm-type }} --stacktrace
+      - run: ./gradlew :shared:sharedKoog:jvmTest -DLLM_TYPE=${{ matrix.ollama-model-id }} --stacktrace
+
+      - name: Sanitize ollama-model-id
+        if: always()
+        run: echo "SANITIZED_OLLAMA_MODEL_ID=$(echo '${{ matrix.ollama-model-id }}' | tr ',:/' '-')" >> $GITHUB_ENV
 
       - name: Collect reports
         if: always()
         uses: actions/upload-artifact@v5
         with:
-          name: reports-${{ matrix.llm-type }}
+          name: reports-${{ env.SANITIZED_OLLAMA_MODEL_ID }}
           path: |
             **/build/reports/
           retention-days: 7

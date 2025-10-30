@@ -1,12 +1,9 @@
 package shared.koog
 
-import ai.koog.prompt.executor.clients.ConnectionTimeoutConfig
 import ai.koog.prompt.executor.clients.LLMClient
-import ai.koog.prompt.executor.clients.deepseek.DeepSeekModels
-import ai.koog.prompt.executor.clients.openai.OpenAIClientSettings
-import ai.koog.prompt.executor.clients.openai.OpenAILLMClient
-import ai.koog.prompt.executor.clients.openai.OpenAIModels
 import ai.koog.prompt.executor.ollama.client.OllamaClient
+import ai.koog.prompt.llm.LLMCapability
+import ai.koog.prompt.llm.LLMProvider
 import ai.koog.prompt.llm.LLModel
 import ai.koog.prompt.llm.OllamaModels
 import shared.common.LlmProfile
@@ -20,29 +17,23 @@ object LLMClientFactory {
 
         val model: LLModel = when (LLM_TYPE.toLlmProfile()) {
             LlmProfile.OLLAMA_GRANITE -> OllamaModels.Granite.GRANITE_3_2_VISION
-            LlmProfile.DMR_DEEPSEEK -> DeepSeekModels.DeepSeekReasoner
-        }
-
-        val client: LLMClient = when (LLM_TYPE.toLlmProfile()) {
-            LlmProfile.OLLAMA_GRANITE -> OllamaClient(
-                baseUrl = baseUrl,
-                timeoutConfig = ConnectionTimeoutConfig(
-                    requestTimeoutMillis = 60_000_000,
-                    socketTimeoutMillis = 60_000_000
-                )
-            ).also { it.getModelOrNull(model.id, pullIfMissing = true) }
-
-            LlmProfile.DMR_DEEPSEEK -> OpenAILLMClient(
-                apiKey = "",
-                settings = OpenAIClientSettings(
-                    baseUrl = baseUrl,
-                    timeoutConfig = ConnectionTimeoutConfig(
-                        requestTimeoutMillis = 60_000_000,
-                        socketTimeoutMillis = 60_000_000
-                    )
-                )
+            LlmProfile.QWEN3_VL_4B -> LLModel(
+                provider = LLMProvider.Ollama,
+                id = LLM_TYPE,
+                capabilities =
+                listOf(
+                    LLMCapability.Temperature,
+                    LLMCapability.Schema.JSON.Basic,
+                    LLMCapability.Tools,
+                    LLMCapability.Vision.Image,
+                    LLMCapability.Document
+                ),
+                contextLength = 256 * 1024
             )
         }
+
+        val client = OllamaClient(baseUrl = baseUrl)
+        client.getModelOrNull(model.id, pullIfMissing = true)
 
         return Pair(client, model)
     }
