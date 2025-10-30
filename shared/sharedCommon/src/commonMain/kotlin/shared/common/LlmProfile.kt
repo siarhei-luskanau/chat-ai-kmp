@@ -1,8 +1,8 @@
 package shared.common
 
 enum class LlmProfile(val profileName: String) {
-    DMR_DEEPSEEK(profileName = "dmr_deepseek"),
-    OLLAMA_GRANITE(profileName = "ollama_granite")
+    OLLAMA_GRANITE(profileName = "granite3.2-visio"),
+    QWEN3_VL_4B(profileName = "qwen3-vl:4b")
 }
 
 fun String.toLlmProfile(): LlmProfile =

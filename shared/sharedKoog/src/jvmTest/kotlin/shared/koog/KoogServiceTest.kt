@@ -2,7 +2,6 @@ package shared.koog
 
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertIs
@@ -51,8 +50,7 @@ class KoogServiceTest {
     }
 
     @Test
-    @Ignore
-    fun attachmentTest() = runTest(timeout = 60.minutes) {
+    fun attachmentTest() = runTest(timeout = 30.minutes) {
         val koogService = KoogService(baseUrlProvider = baseContainerUrl?.let { { it } })
         val result = koogService.askLlm(
             promptText = "What is in the attached image?",
@@ -64,9 +62,9 @@ class KoogServiceTest {
         assertNotNull(actual = result.result)
         assertContains(
             result.result,
-            other = "Boat",
+            other = "circle",
             ignoreCase = true,
-            message = "Result should contain Boat"
+            message = "Result should contain: circle"
         )
     }
 }
