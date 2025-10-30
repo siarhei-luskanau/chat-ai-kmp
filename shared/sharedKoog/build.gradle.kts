@@ -24,6 +24,7 @@ kotlin {
             implementation(libs.ktor.client.apache5)
         }
         jvmTest.dependencies {
+            implementation(libs.slf4j.simple)
             implementation(libs.testcontainers.ollama)
         }
         iosMain.dependencies {

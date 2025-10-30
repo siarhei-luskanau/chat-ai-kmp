@@ -2,7 +2,6 @@ package shared.koog
 
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertIs
@@ -13,6 +12,7 @@ import org.testcontainers.containers.DockerModelRunnerContainer
 import org.testcontainers.containers.GenericContainer
 import shared.common.GenericResult
 import shared.koog.Containers.EXPOSED_PORT
+import kotlin.test.Ignore
 
 class KoogServiceTest {
 
@@ -36,6 +36,7 @@ class KoogServiceTest {
     }
 
     @Test
+    @Ignore
     fun textTest() = runTest(timeout = 10.minutes) {
         val koogService = KoogService(baseUrlProvider = baseContainerUrl?.let { { it } })
         val result = koogService.askLlm(promptText = "What is the capital of France? _")
@@ -51,8 +52,7 @@ class KoogServiceTest {
     }
 
     @Test
-    @Ignore
-    fun attachmentTest() = runTest(timeout = 60.minutes) {
+    fun attachmentTest() = runTest(timeout = 30.minutes) {
         val koogService = KoogService(baseUrlProvider = baseContainerUrl?.let { { it } })
         val result = koogService.askLlm(
             promptText = "What is in the attached image?",

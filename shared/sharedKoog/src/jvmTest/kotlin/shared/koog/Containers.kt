@@ -6,6 +6,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.request.get
 import io.ktor.http.isSuccess
+import java.io.File
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.testcontainers.containers.DockerModelRunnerContainer
@@ -25,9 +26,11 @@ object Containers {
                     cmd.hostConfig?.apply {
                         withMemory(4L * 1024 * 1024 * 1024) // 4GB RAM
                         withCpuCount(2L)
-                        val path = System.getProperty("project.root.dir", ".") + "/.ollama"
-                        println("Container volume: $path")
-                        withBinds(Bind(path, Volume("/root/.ollama")))
+                        if (!true.toString().equals(other = System.getenv("CI"), ignoreCase = true)) {
+                            val path = System.getProperty("project.root.dir", ".") + File.separator + ".ollama"
+                            println("Container volume: $path")
+                            withBinds(Bind(path, Volume("/root/.ollama")))
+                        }
                     }
                 }
             }
