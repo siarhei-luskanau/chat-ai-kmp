@@ -2,6 +2,7 @@ package shared.koog
 
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertIs
@@ -12,7 +13,6 @@ import org.testcontainers.containers.DockerModelRunnerContainer
 import org.testcontainers.containers.GenericContainer
 import shared.common.GenericResult
 import shared.koog.Containers.EXPOSED_PORT
-import kotlin.test.Ignore
 
 class KoogServiceTest {
 
