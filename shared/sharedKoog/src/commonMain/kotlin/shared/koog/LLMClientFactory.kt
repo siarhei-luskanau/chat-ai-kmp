@@ -24,23 +24,12 @@ object LLMClientFactory {
         }
 
         val client: LLMClient = when (LLM_TYPE.toLlmProfile()) {
-            LlmProfile.OLLAMA_GRANITE -> OllamaClient(
-                baseUrl = baseUrl,
-                timeoutConfig = ConnectionTimeoutConfig(
-                    requestTimeoutMillis = 60_000_000,
-                    socketTimeoutMillis = 60_000_000
-                )
-            ).also { it.getModelOrNull(model.id, pullIfMissing = true) }
+            LlmProfile.OLLAMA_GRANITE -> OllamaClient(baseUrl = baseUrl)
+                .also { it.getModelOrNull(model.id, pullIfMissing = true) }
 
             LlmProfile.DMR_DEEPSEEK -> OpenAILLMClient(
                 apiKey = "",
-                settings = OpenAIClientSettings(
-                    baseUrl = baseUrl,
-                    timeoutConfig = ConnectionTimeoutConfig(
-                        requestTimeoutMillis = 60_000_000,
-                        socketTimeoutMillis = 60_000_000
-                    )
-                )
+                settings = OpenAIClientSettings(baseUrl = baseUrl)
             )
         }
 

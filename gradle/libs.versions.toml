@@ -21,6 +21,7 @@ kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.7.1-0.6.x-compat"
 ktlint = "1.7.1"
 ktor = "3.3.1"
+slf4j = "2.0.17"
 testcontainers = "1.21.3"
 
 [libraries]
@@ -50,6 +51,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core" }
 ktor-client-js = { module = "io.ktor:ktor-client-js" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 testcontainers-ollama = { module = "org.testcontainers:ollama", version.ref = "testcontainers" }
 
 [plugins]
