@@ -26,14 +26,12 @@ class KoogService(private val baseUrlProvider: (() -> String)? = null) {
             user {
                 text(text = promptText)
                 if (attachmentData != null && attachmentFormat != null) {
-                    attachments {
-                        image(
-                            image = ContentPart.Image(
-                                content = AttachmentContent.Binary.Bytes(data = attachmentData),
-                                format = attachmentFormat
-                            )
+                    image(
+                        image = ContentPart.Image(
+                            content = AttachmentContent.Binary.Bytes(data = attachmentData),
+                            format = attachmentFormat
                         )
-                    }
+                    )
                 }
             }
         }
