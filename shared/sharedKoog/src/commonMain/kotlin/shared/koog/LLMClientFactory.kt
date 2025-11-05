@@ -16,7 +16,9 @@ object LLMClientFactory {
         println("LLMClientFactory: $LLM_TYPE base url : $baseUrl")
 
         val model: LLModel = when (LLM_TYPE.toLlmProfile()) {
-            LlmProfile.OLLAMA_GRANITE -> OllamaModels.Granite.GRANITE_3_2_VISION
+            LlmProfile.GRANITE -> OllamaModels.Granite.GRANITE_3_2_VISION
+            LlmProfile.LLAMA3_2_1B -> OllamaModels.Meta.LLAMA_3_2.copy(id = LLM_TYPE)
+
             LlmProfile.QWEN3_VL_4B -> LLModel(
                 provider = LLMProvider.Ollama,
                 id = LLM_TYPE,
@@ -29,6 +31,20 @@ object LLMClientFactory {
                     LLMCapability.Document
                 ),
                 contextLength = 256 * 1024
+            )
+
+            LlmProfile.QWEN3_0_6B -> LLModel(
+                provider = LLMProvider.Ollama,
+                id = LLM_TYPE,
+                capabilities =
+                listOf(
+                    LLMCapability.Temperature,
+                    LLMCapability.Schema.JSON.Basic,
+                    LLMCapability.Tools,
+                    LLMCapability.Vision.Image,
+                    LLMCapability.Document
+                ),
+                contextLength = 40 * 1024
             )
         }
 

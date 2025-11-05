@@ -4,10 +4,12 @@ import ai.koog.prompt.dsl.prompt
 import ai.koog.prompt.executor.llms.SingleLLMPromptExecutor
 import ai.koog.prompt.message.AttachmentContent
 import ai.koog.prompt.message.ContentPart
+import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import shared.common.GenericResult
 
+@OptIn(ExperimentalTime::class)
 class KoogService(private val baseUrlProvider: (() -> String)? = null) {
 
     @OptIn(ExperimentalUuidApi::class)
@@ -37,8 +39,10 @@ class KoogService(private val baseUrlProvider: (() -> String)? = null) {
         }
         println("KoogService: execute agent prompt: $prompt")
         val response = promptExecutor.execute(prompt = prompt, model = model).single()
+        val responseTime = response.metaInfo.timestamp - prompt.messages.first().metaInfo.timestamp
+        println("KoogService: response time: $responseTime")
         println("KoogService: agent response: $response")
-        GenericResult.Success(result = response.content)
+        GenericResult.Success(result = "${model.id} $responseTime\n${response.content}")
     } catch (error: Throwable) {
         GenericResult.Failure(error = error)
     }

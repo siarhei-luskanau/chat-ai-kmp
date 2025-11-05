@@ -11,7 +11,7 @@ on:
 env:
   JAVA_VERSION: 21
   JAVA_DISTRIBUTION: 'zulu'
-  LLM_TYPE: 'granite3.2-visio'
+  LLM_TYPE: 'llama3.2:1b'
 
 jobs:
 
