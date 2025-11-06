@@ -14,7 +14,7 @@ class StartViewModel(private val koogService: KoogService) : ViewModel() {
     fun onEvent(event: StartViewEvent) {
         when (event) {
             StartViewEvent.Launched -> viewModelScope.launch {
-                val result = koogService.askLlm(promptText = "Hello! How can you help me?")
+                val result = koogService.askLlm(promptText = "What is the capital of France?")
                 val newViewState = when (result) {
                     is GenericResult.Failure -> StartViewState.Error(error = result.error)
                     is GenericResult.Success -> StartViewState.Success(data = result.result)

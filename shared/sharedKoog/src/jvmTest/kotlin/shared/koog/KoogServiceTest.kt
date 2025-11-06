@@ -37,7 +37,7 @@ class KoogServiceTest {
     @Test
     fun textTest() = runTest(timeout = 10.minutes) {
         val koogService = KoogService(baseUrlProvider = baseContainerUrl?.let { { it } })
-        val result = koogService.askLlm(promptText = "What is the capital of France? _")
+        val result = koogService.askLlm(promptText = "What is the capital of France?")
         println(result)
         assertIs<GenericResult.Success<String>>(value = result)
         assertNotNull(actual = result.result)
