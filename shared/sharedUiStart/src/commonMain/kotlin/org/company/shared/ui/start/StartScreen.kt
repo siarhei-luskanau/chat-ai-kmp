@@ -66,10 +66,12 @@ internal fun StartContent(viewState: StateFlow<StartViewState>, onEvent: (StartV
                 text = "Loading...",
                 style = MaterialTheme.typography.displaySmall
             )
+
             is StartViewState.Success -> Text(
                 text = result.data,
                 style = MaterialTheme.typography.displaySmall
             )
+
             is StartViewState.Error -> Text(
                 text = result.error.toString(),
                 style = MaterialTheme.typography.displaySmall

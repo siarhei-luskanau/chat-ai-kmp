@@ -8,6 +8,7 @@ sealed interface GenericResult<T> {
 
     fun <R> map(transform: (T) -> R): GenericResult<R> = when (this) {
         is Failure -> Failure(error)
+
         is Success -> try {
             Success(transform(result))
         } catch (error: Throwable) {
@@ -17,6 +18,7 @@ sealed interface GenericResult<T> {
 
     suspend fun <R> mapSuspend(transform: suspend (T) -> R): GenericResult<R> = when (this) {
         is Failure -> Failure(error)
+
         is Success -> try {
             Success(transform(result))
         } catch (error: CancellationException) {
